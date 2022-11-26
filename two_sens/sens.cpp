@@ -7,7 +7,6 @@ int MPU_addr[N_SENSORS];
 
 void initSensor(int MPU_idx) {
     int sens_address = MPU_addr[MPU_idx];
-    Serial.begin(9600);
     Wire.begin();
     Wire.beginTransmission(sens_address);
     Wire.write(PWR_MGMT_1);

@@ -6,6 +6,7 @@
 float acceleration[N_SENSORS][N_SENSOR_VALUES];
 
 void setup() {
+    Serial.begin(9600);
     initSens();
 
     delay(20);
