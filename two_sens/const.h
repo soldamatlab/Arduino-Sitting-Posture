@@ -2,6 +2,11 @@
 #define N_SENSORS (2)        // later 3
 #define N_SENSOR_VALUES (3)  // later 6
 
+#define BUTTON_PIN (12)
+#define BUTTON_MODE (INPUT_PULLUP)
+
+#define LED (13)
+
 // Sensor addresses
 #define MPU_ADDR_0 (0x68)  // I2C address of the first MPU-6050
 #define MPU_ADDR_1 (0x69)  // I2C address of the second MPU-6050
