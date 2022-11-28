@@ -13,8 +13,8 @@
 #define X_HIGH (0.35)
 
 #define Y_MID (-0.1)
-#define Y_LOW (100)
-#define Y_HIGH (100)
+#define Y_LOW (0.35)
+#define Y_HIGH (0.35)
 
 #define Z_MID (2.2)
 #define Z_LOW (100)

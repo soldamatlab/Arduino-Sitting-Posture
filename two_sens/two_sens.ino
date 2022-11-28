@@ -1,8 +1,8 @@
 #include <Wire.h>
 
+#include "averaging.h"
 #include "const.h"
 #include "sens.h"
-#include "averaging.h"
 
 float acceleration[N_SENSORS][N_SENSOR_VALUES];
 
@@ -17,17 +17,16 @@ void setup() {
 
 void loop() {
     bool on = !digitalRead(BUTTON_PIN);
-    if (on) {
+    if (true) {
         measure();
 
         // TODO update all sensors
-        updateValues(acceleration[0]);
+        for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
+            updateValues(acceleration[sensor], sensor);
+        }
         bool rightPosture = checkPosition();
-        Serial.print(" ");
-        Serial.print(rightPosture);
 
         userFeedback(rightPosture);
-        Serial.println();
     }
 
     delay(250);
@@ -39,7 +38,7 @@ void measure() {
 
     printSensValues(0);
     printSensValues(1);
-    //Serial.println();
+    Serial.println();
 }
 
 void printSensValues(int MPU_idx) {

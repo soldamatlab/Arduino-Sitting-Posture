@@ -1,20 +1,19 @@
-#include <Wire.h>
-
 #include "const.h"
 
 // Global vars
-float g[3][20];          // [osy] = [3] (xyz), [hodnoty] = [20] (hodnoty za 5s merene jednou za 250ms 20k/250)
-int last_value = 0;      // last_value je ukazatel na pole
-float thresholds[3][2];  // [osy] = [3] (xyz), [hodnoty] = [2] (spdni mez a horni mez)
+// TODO use constants instead of literals
+float g[N_SENSORS][3][20];  // [osy] = [3] (xyz), [hodnoty] = [20] (hodnoty za 5s merene jednou za 250ms 20k/250)
+int last_value = 0;         // last_value je ukazatel na pole
+float thresholds[3][2];     // [osy] = [3] (xyz), [hodnoty] = [2] (spdni mez a horni mez)
 // end globalni promenne
 
-float average(int axis) {
+float average(int sensor, int axis) {
     /*
      * Funkce zprumeruje danou osu a vrati vyseledek.
      */
     float s = 0;
     for (int i = 0; i < 20; i++) {
-        s += g[axis][i];
+        s += g[sensor][axis][i];
     }
     return s / 20.;
 }
@@ -26,18 +25,13 @@ bool checkPosition() {
      * 	+ Outputs Error message.
      * If all averages are accepted by thresholding, returns true.
      */
-    for (int i = 0; i < 3; i++) {
-        float curr_av = average(i);
-		Serial.print(" AVG = ");
-		Serial.print(curr_av);
-		Serial.print(" ");
-		Serial.print(thresholds[i][0]);
-		Serial.print(" ");
-		Serial.print(thresholds[i][0]);
-		Serial.print(" ");
-		
-        if (curr_av < thresholds[i][0] || curr_av > thresholds[i][1]) {
-        	return false;
+    for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
+        for (int i = 0; i < 3; i++) {
+            float curr_av = average(sensor, i);
+
+            if (curr_av < thresholds[i][0] || curr_av > thresholds[i][1]) {
+                return false;
+            }
         }
     }
     return true;
@@ -56,14 +50,14 @@ void initThresholds() {
     thresholds[2][1] = Z_MID + Z_HIGH;
 }
 
-void updateValues(float *values) {
+void updateValues(float *values, int sensor) {
     /*
      * Function rewrites values in stack of iterations.
      */
     // Prepsat gx, gy, gz na values ze senzoru.
-    g[0][last_value] = values[0];
-    g[1][last_value] = values[1];
-    g[2][last_value] = values[2];
+    g[sensor][0][last_value] = values[0];
+    g[sensor][1][last_value] = values[1];
+    g[sensor][2][last_value] = values[2];
     last_value++;
     if (last_value == 20) {
         last_value = 0;
