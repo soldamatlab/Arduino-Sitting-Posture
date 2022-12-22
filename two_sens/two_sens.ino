@@ -1,14 +1,18 @@
 #include <Wire.h>
 
-#include "averaging.h"
 #include "const.h"
 #include "sens.h"
+#include "bluetooth.h"
+#include "averaging.h"
 
 float acceleration[N_SENSORS][N_SENSOR_VALUES];
+char bt_msg[BT_MSG_MAX_LENGTH + 1];
+int btRead;
 
 void setup() {
   Serial.begin(9600);
   initSens();
+  initBluetooth();
   initThresholds();
   pinMode(BUTTON_PIN, BUTTON_MODE);
   pinMode(LED, OUTPUT);
@@ -23,12 +27,26 @@ void setup() {
 }
 
 void loop() {
-    /*if (digitalRead(BUTTON_PIN)) {
+    // OFF button
+    /*
+    if (digitalRead(BUTTON_PIN)) {
         delay(250);
         return;
-    }*/
+    }
+    */
 
+    // Bluetooth
+    // TODO
+    if (Blue.available()) {
+        readBluetooth(bt_msg);
+        Serial.println(bt_msg);
+    }
+    if (Serial.available()) {
+        Blue.write(Serial.read());
+    }
 
+    // Measure
+    measure();
     // TODO update all sensors
     for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
         measure(sensor);
@@ -37,6 +55,7 @@ void loop() {
     Serial.println();
     bool rightPosture = checkPosition();
 
+    // Feedback
     userFeedback(rightPosture);
 
     delay(250);
