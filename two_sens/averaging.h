@@ -1,3 +1,3 @@
 bool checkPosition();
 void initThresholds();
-void updateValues(float** values);
+void updateValues(float* values, int sensor);

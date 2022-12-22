@@ -1,12 +1,3 @@
-// Architecture
-#define N_SENSORS (2)        // later 3
-#define N_SENSOR_VALUES (3)  // later 6
-
-#define BUTTON_PIN (12)
-#define BUTTON_MODE (INPUT_PULLUP)
-
-#define LED (13)
-
 // Settings
 #define X_MID (-0.1)
 #define X_LOW (0.35)
@@ -20,9 +11,32 @@
 #define Z_LOW (100)
 #define Z_HIGH (100)
 
+// HC-05 Bluetooth module settings
+#define BT_NAME ("HC-05")
+#define BT_PASS ("1234")
+
+#define BT_MSG_MAX_LENGTH (1)
+
+// Architecture
+#define N_SENSORS (3)
+#define N_SENSOR_VALUES (3)
+
+#define BUTTON_PIN (12)
+#define BUTTON_MODE (INPUT_PULLUP)
+
+#define SENSOR_PIN_0 (5)
+#define SENSOR_PIN_1 (6)
+#define SENSOR_PIN_2 (7)
+
+#define BTTX (9) // Bluetooth transmit - connect to HC-05 RXD pin via converter
+#define BTRX (8) // Bluetooth recieve - connect to HC-05 TXD pin via converter
+
+#define LED (13)
+#define BUZZER (4)
+
 // Sensor addresses
 #define MPU_ADDR_0 (0x68)  // I2C address of the first MPU-6050
-#define MPU_ADDR_1 (0x69)  // I2C address of the second MPU-6050
+//#define MPU_ADDR_1 (0x69)  // I2C address of the second MPU-6050
 
 // Registers
 #define PWR_MGMT_1 (0x6B)  // PWR_MGMT_1 register
@@ -42,3 +56,4 @@
 
 // Numerical constants
 #define ACC_CONSTANT (8192.0)
+#define ITERATIONS (20)
