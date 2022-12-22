@@ -1,0 +1,8 @@
+Board <- "Arduino Nano"
+(Tools > Board > "Arduino AVR Boards > Arduino Nano")
+
+Port <- "COM[X]"
+(for example "COM5", the used USB port)
+
+Processor <- "ATmega328P (Old Bootloader)"
+(Tools > Processor > "ATmega328P (Old Bootloader)")
