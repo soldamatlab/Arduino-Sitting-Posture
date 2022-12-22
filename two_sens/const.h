@@ -1,9 +1,19 @@
 // Architecture
-#define N_SENSORS (2)        // later 3
+#define N_SENSORS (3)        // later 3
 #define N_SENSOR_VALUES (3)  // later 6
 
 #define BUTTON_PIN (12)
 #define BUTTON_MODE (INPUT_PULLUP)
+
+
+#define SENSOR_PIN_0 (5)
+#define SENSOR_PIN_1 (6)
+#define SENSOR_PIN_2 (7)
+
+
+
+
+
 
 #define LED (13)
 
@@ -42,3 +52,4 @@
 
 // Numerical constants
 #define ACC_CONSTANT (8192.0)
+#define ITERATIONS (20)

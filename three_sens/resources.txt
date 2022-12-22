@@ -1,3 +1,0 @@
-MPU6050 Triple Axis Gyroscope & Accelerometer Arduino Library
-https://github.com/jarzebski/Arduino-MPU6050
-tutorial: https://create.arduino.cc/projecthub/MissionCritical/mpu-6050-tutorial-how-to-program-mpu-6050-with-arduino-aee39a?fbclid=IwAR2uZQ8b7_901VZ0nd7-qRomsqsjOLYd6p8PXXYKTcvrgNUv8ZTbGCPsDqA

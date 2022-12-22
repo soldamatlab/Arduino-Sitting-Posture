@@ -2,7 +2,9 @@
 
 // Global vars
 // TODO use constants instead of literals
-float g[N_SENSORS][3][20];  // [osy] = [3] (xyz), [hodnoty] = [20] (hodnoty za 5s merene jednou za 250ms 20k/250)
+
+
+float g[N_SENSORS][3][ITERATIONS];  // [osy] = [3] (xyz), [hodnoty] = [20] (hodnoty za 5s merene jednou za 250ms 20k/250)
 int last_value = 0;         // last_value je ukazatel na pole
 float thresholds[3][2];     // [osy] = [3] (xyz), [hodnoty] = [2] (spdni mez a horni mez)
 // end globalni promenne
@@ -12,10 +14,10 @@ float average(int sensor, int axis) {
      * Funkce zprumeruje danou osu a vrati vyseledek.
      */
     float s = 0;
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < ITERATIONS; i++) {
         s += g[sensor][axis][i];
     }
-    return s / 20.;
+    return s / ITERATIONS;
 }
 
 bool checkPosition() {
@@ -26,13 +28,13 @@ bool checkPosition() {
      * If all averages are accepted by thresholding, returns true.
      */
     for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
-        for (int i = 0; i < 3; i++) {
-            float curr_av = average(sensor, i);
+      for (int i = 0; i < 3; i++) {
+          float curr_av = average(sensor, i);
 
-            if (curr_av < thresholds[i][0] || curr_av > thresholds[i][1]) {
-                return false;
-            }
-        }
+          if (curr_av < thresholds[i][0] || curr_av > thresholds[i][1]) {
+              return false;
+          }
+      }
     }
     return true;
 }
@@ -48,6 +50,7 @@ void initThresholds() {
     thresholds[1][1] = Y_MID + Y_HIGH;
     thresholds[2][0] = Z_MID - Z_LOW;
     thresholds[2][1] = Z_MID + Z_HIGH;
+
 }
 
 void updateValues(float *values, int sensor) {

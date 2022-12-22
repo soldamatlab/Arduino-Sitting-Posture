@@ -7,27 +7,34 @@
 float acceleration[N_SENSORS][N_SENSOR_VALUES];
 
 void setup() {
-    Serial.begin(9600);
-    initSens();
-    initThresholds();
-    pinMode(BUTTON_PIN, BUTTON_MODE);
-    pinMode(LED, OUTPUT);
+  Serial.begin(9600);
+  initSens();
+  initThresholds();
+  pinMode(BUTTON_PIN, BUTTON_MODE);
+  pinMode(LED, OUTPUT);
+  pinMode(SENSOR_PIN_0, OUTPUT);
+  pinMode(SENSOR_PIN_1, OUTPUT);
+  pinMode(SENSOR_PIN_2, OUTPUT);
 
-    delay(20);
+  digitalWrite(SENSOR_PIN_0, HIGH);
+  digitalWrite(SENSOR_PIN_1, HIGH);
+  digitalWrite(SENSOR_PIN_2, HIGH);
+
 }
 
 void loop() {
-    if (digitalRead(BUTTON_PIN)) {
+    /*if (digitalRead(BUTTON_PIN)) {
         delay(250);
         return;
-    }
+    }*/
 
-    measure();
 
     // TODO update all sensors
     for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
+        measure(sensor);
         updateValues(acceleration[sensor], sensor);
     }
+    Serial.println();
     bool rightPosture = checkPosition();
 
     userFeedback(rightPosture);
@@ -35,13 +42,14 @@ void loop() {
     delay(250);
 }
 
-void measure() {
-    readSens(0, acceleration[0]);
-    readSens(1, acceleration[1]);
 
-    printSensValues(0);
-    printSensValues(1);
-    Serial.println();
+
+void measure(int sensor) {
+    readSens(sensor, acceleration[sensor]);
+    //readSens(1, acceleration[1]);
+
+    printSensValues(sensor);
+    Serial.print(" ");
 }
 
 void printSensValues(int MPU_idx) {
