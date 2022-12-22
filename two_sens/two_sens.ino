@@ -16,6 +16,8 @@ void setup() {
   initThresholds();
   pinMode(BUTTON_PIN, BUTTON_MODE);
   pinMode(LED, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+
   pinMode(SENSOR_PIN_0, OUTPUT);
   pinMode(SENSOR_PIN_1, OUTPUT);
   pinMode(SENSOR_PIN_2, OUTPUT);
@@ -46,14 +48,13 @@ void loop() {
     }
 
     // Measure
-    measure();
-    // TODO update all sensors
     for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
         measure(sensor);
         updateValues(acceleration[sensor], sensor);
     }
     Serial.println();
-    bool rightPosture = checkPosition();
+    //bool rightPosture = checkPosition();
+    bool rightPosture = evaluatePosture();
 
     // Feedback
     userFeedback(rightPosture);
@@ -89,7 +90,7 @@ void printSensIdx(char *varName, int MPU_idx) {
 
 // Dummy functions
 bool evaluatePosture() {
-    if (acceleration[0][0] < -0.25) {
+    if (acceleration[2][0] < -0.25) {
         return false;
     }
     return true;
@@ -98,7 +99,9 @@ bool evaluatePosture() {
 void userFeedback(bool rightPosture) {
     if (rightPosture) {
         digitalWrite(LED, 0);
+        noTone(BUZZER);
     } else {
         digitalWrite(LED, 1);
+        tone(BUZZER, 1000);
     }
 }
