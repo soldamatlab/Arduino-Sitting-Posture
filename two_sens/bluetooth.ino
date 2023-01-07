@@ -3,12 +3,12 @@
 #include "const.h"
 
 SoftwareSerial Blue(BTRX, BTTX);
-bool verbose = false;
+static bool verbose_bt = false;
 
 void initBluetooth(bool printSerial = true) {
     Blue.begin(9600);
     if (printSerial) {
-        verbose = true;
+        verbose_bt = true;
         printInitMessage();
     }
 }
@@ -46,7 +46,7 @@ int readBluetooth(char* save_to) {
 int listenBluetooth(char* save_to) {
     if (!Blue.available()) return 0;
     int read = readBluetooth(save_to);
-    if (verbose) printRecievedMsg(save_to);
+    if (verbose_bt) printRecievedMsg(save_to);
     return read;
 }
 

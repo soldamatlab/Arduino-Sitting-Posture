@@ -8,6 +8,7 @@
 float acceleration[N_SENSORS][N_AXIS];
 char bt_msg[BT_MAX_INCOMING_MSG_LENGTH + 1];
 bool on = true;
+bool muted = false;
 
 void setup() {
     Serial.begin(9600);
@@ -58,6 +59,10 @@ void bluetoothCommand(char cmd) {
     case BT_RESET_SENS_VALUES:
         resetValues();
         return;
+
+    case BT_MUTE_BUZZER:
+        muteBuzzer();
+        return;
     
     default:
         return;
@@ -86,8 +91,19 @@ void userFeedback(bool rightPosture) {
         Blue.println("Correct position");
     } else {
         digitalWrite(LED, 1);
-        tone(BUZZER, 1000);
+        if (!muted) tone(BUZZER, 1000);
         Blue.println("Wrong position");
+    }
+}
+
+void muteBuzzer() {
+    if (muted) {
+        muted = false;
+        Serial.println("Buzzer unmuted.");
+    } else {
+        muted = true;
+        noTone(BUZZER);
+        Serial.println("Buzzer muted.");
     }
 }
 
@@ -116,7 +132,7 @@ void printSensIdx(char* varName, int MPU_idx) {
 }
 
 void printPosture(bool rightPosture) {
-    Serial.print(" Posture:");
+    Serial.print(" Posture: ");
     Serial.println(rightPosture);
 }
 

@@ -1,3 +1,5 @@
+#include <Wire.h>
+
 #include "const.h"
 
 // Global vars
@@ -7,6 +9,7 @@
 float g[N_SENSORS][N_AXIS][N_ITERATIONS];  // [osy] = [3] (xyz), [hodnoty] = [20] (hodnoty za 5s merene jednou za 250ms 20k/250)
 int last_value = 0;         // last_value je ukazatel na pole
 float thresholds[N_SENSORS][N_AXIS][2];     // [osy] = [3] (xyz), [hodnoty] = [2] (spdni mez a horni mez)
+static bool verbose_avg = false;
 // end globalni promenne
 
 float average(int sensor, int axis) {
@@ -36,7 +39,8 @@ bool checkPosition() {
     return true;
 }
 
-void initAveraging() {
+void initAveraging(bool printSerial = true) {
+    if (printSerial) verbose_avg = true;
     initThresholds();
     resetValues();
 }
@@ -94,6 +98,8 @@ void resetValues() {
     setValues(SENSOR_NECK_IDX, AXIS_X_IDX, NECK_X_MID);
     setValues(SENSOR_NECK_IDX, AXIS_Y_IDX, NECK_Y_MID);
     setValues(SENSOR_NECK_IDX, AXIS_Z_IDX, NECK_Z_MID);
+
+    if (verbose_avg) Serial.println("Sensor values reset.");
 }
 
 void setValues(int sensor, int axis, float value) {

@@ -51,6 +51,7 @@
 #define BT_OFF '0'
 #define BT_ON '1'
 #define BT_RESET_SENS_VALUES 'r'
+#define BT_MUTE_BUZZER 'm'
 
 // Architecture
 #define N_SENSORS (3)
