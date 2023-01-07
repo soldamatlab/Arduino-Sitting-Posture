@@ -20,6 +20,6 @@ Connection type:    Serial
 
 extern SoftwareSerial Blue;
 
-void initBluetooth(bool msg = true);
+void initBluetooth(bool print_serial = true);
 int readBluetooth(char* save_to);
 int listenBluetooth(char* save_to);

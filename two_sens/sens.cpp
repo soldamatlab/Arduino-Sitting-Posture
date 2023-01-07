@@ -30,11 +30,11 @@ void initSens() {
 
 void readSens(int sensor, float *save_to) {
     if (sensor == 0) {
-      sensor = SENSOR_PIN_0;
+      sensor = SENSOR_ARM_PIN;
     } else if (sensor == 1) {
-      sensor = SENSOR_PIN_1;
+      sensor = SENSOR_LEG_PIN;
     } else if (sensor == 2) {
-      sensor = SENSOR_PIN_2;
+      sensor = SENSOR_NECK_PIN;
     }
     digitalWrite(sensor, LOW);
     delay(100);

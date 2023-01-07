@@ -5,27 +5,27 @@
 #include "const.h"
 #include "sens.h"
 
-float acceleration[N_SENSORS][N_SENSOR_VALUES];
+float acceleration[N_SENSORS][N_AXIS];
 char bt_msg[BT_MAX_INCOMING_MSG_LENGTH + 1];
 bool on = true;
+bool muted = false;
 
 void setup() {
     Serial.begin(9600);
     initSens();
-    initThresholds();
+    initAveraging();
     initBluetooth();
 
     pinMode(BUTTON_PIN, BUTTON_MODE);
     pinMode(LED, OUTPUT);
     pinMode(BUZZER, OUTPUT);
 
-    pinMode(SENSOR_PIN_0, OUTPUT);
-    pinMode(SENSOR_PIN_1, OUTPUT);
-    pinMode(SENSOR_PIN_2, OUTPUT);
-
-    digitalWrite(SENSOR_PIN_0, HIGH);
-    digitalWrite(SENSOR_PIN_1, HIGH);
-    digitalWrite(SENSOR_PIN_2, HIGH);
+    pinMode(SENSOR_ARM_PIN, OUTPUT);
+    pinMode(SENSOR_LEG_PIN, OUTPUT);
+    pinMode(SENSOR_NECK_PIN, OUTPUT);
+    digitalWrite(SENSOR_ARM_PIN, HIGH);
+    digitalWrite(SENSOR_LEG_PIN, HIGH);
+    digitalWrite(SENSOR_NECK_PIN, HIGH);
 }
 
 void loop() {
@@ -38,10 +38,8 @@ void loop() {
     }
 
     measure();
-
-    bool rightPosture = evaluatePosture();
-
-    userFeedback(rightPosture);
+    bool right_posture = evaluatePosture();
+    userFeedback(right_posture);
 
     delay(ON_DELAY);
 }
@@ -57,6 +55,14 @@ void bluetoothCommand(char cmd) {
     case BT_ON:
         on = true;
         return;
+
+    case BT_RESET_SENS_VALUES:
+        resetValues();
+        return;
+
+    case BT_MUTE_BUZZER:
+        muteBuzzer();
+        return;
     
     default:
         return;
@@ -67,53 +73,69 @@ void measure() {
     for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
         readSens(sensor, acceleration[sensor]);
         updateValues(acceleration[sensor], sensor);
-        printSensValues(sensor);
-        Serial.print(" ");
     }
-    Serial.println();
+    printSens();
 }
 
 bool evaluatePosture() {
-    bool rightPosture = checkPosition();
+    bool right_posture = checkPosition();
     // bool rightPosture = checkPositionDummy();
-    printPosture(rightPosture);
-    return rightPosture;
+    printPosture(right_posture);
+    return right_posture;
 }
 
-void userFeedback(bool rightPosture) {
-    if (rightPosture) {
+void userFeedback(bool right_posture) {
+    if (right_posture) {
         digitalWrite(LED, 0);
         noTone(BUZZER);
         Blue.println("Correct position");
     } else {
         digitalWrite(LED, 1);
-        tone(BUZZER, 1000);
+        if (!muted) tone(BUZZER, 1000);
         Blue.println("Wrong position");
     }
 }
 
-// -- debug ------------------------------------------------------------------
-void printSensValues(int MPU_idx) {
-    printSensIdx("ax", MPU_idx);
-    Serial.print(acceleration[MPU_idx][0]);
-    printSensIdx("ay", MPU_idx);
-    Serial.print(acceleration[MPU_idx][1]);
-    printSensIdx("az", MPU_idx);
-    Serial.print(acceleration[MPU_idx][2]);
+void muteBuzzer() {
+    if (muted) {
+        muted = false;
+        Serial.println("Buzzer unmuted.");
+    } else {
+        muted = true;
+        noTone(BUZZER);
+        Serial.println("Buzzer muted.");
+    }
 }
 
-void printSensIdx(char* varName, int MPU_idx) {
+// -- debug ------------------------------------------------------------------
+void printSens() {
+    for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
+        printSensValues(sensor);
+        Serial.print(" ");
+    }
+}
+
+void printSensValues(int MPU_idx) {
+    printSensIdx("ax", MPU_idx);
+    Serial.print(acceleration[MPU_idx][AXIS_X_IDX]);
+    printSensIdx("ay", MPU_idx);
+    Serial.print(acceleration[MPU_idx][AXIS_Y_IDX]);
+    printSensIdx("az", MPU_idx);
+    Serial.print(acceleration[MPU_idx][AXIS_Z_IDX]);
+}
+
+void printSensIdx(char* var_name, int MPU_idx) {
     Serial.print(" ");
-    Serial.print(varName);
+    Serial.print(var_name);
     Serial.print(MPU_idx);
     Serial.print(" ");
 }
 
-void printPosture(bool rightPosture) {
-    Serial.print(" Posture:");
-    Serial.print(rightPosture);
+void printPosture(bool right_posture) {
+    Serial.print(" Posture: ");
+    Serial.println(right_posture);
 }
 
 bool checkPositionDummy() {
-    return acceleration[2][0] >= -0.25;
+    return acceleration[SENSOR_NECK_IDX][AXIS_X_IDX] >= -0.25;
 }
