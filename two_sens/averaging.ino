@@ -39,8 +39,8 @@ bool checkPosition() {
     return true;
 }
 
-void initAveraging(bool printSerial = true) {
-    if (printSerial) verbose_avg = true;
+void initAveraging(bool print_serial = true) {
+    if (print_serial) verbose_avg = true;
     initThresholds();
     resetValues();
 }

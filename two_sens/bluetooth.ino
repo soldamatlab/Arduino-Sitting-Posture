@@ -5,9 +5,9 @@
 SoftwareSerial Blue(BTRX, BTTX);
 static bool verbose_bt = false;
 
-void initBluetooth(bool printSerial = true) {
+void initBluetooth(bool print_serial = true) {
     Blue.begin(9600);
-    if (printSerial) {
+    if (print_serial) {
         verbose_bt = true;
         printInitMessage();
     }

@@ -38,8 +38,8 @@ void loop() {
     }
 
     measure();
-    bool rightPosture = evaluatePosture();
-    userFeedback(rightPosture);
+    bool right_posture = evaluatePosture();
+    userFeedback(right_posture);
 
     delay(ON_DELAY);
 }
@@ -78,14 +78,14 @@ void measure() {
 }
 
 bool evaluatePosture() {
-    bool rightPosture = checkPosition();
+    bool right_posture = checkPosition();
     // bool rightPosture = checkPositionDummy();
-    printPosture(rightPosture);
-    return rightPosture;
+    printPosture(right_posture);
+    return right_posture;
 }
 
-void userFeedback(bool rightPosture) {
-    if (rightPosture) {
+void userFeedback(bool right_posture) {
+    if (right_posture) {
         digitalWrite(LED, 0);
         noTone(BUZZER);
         Blue.println("Correct position");
@@ -124,16 +124,16 @@ void printSensValues(int MPU_idx) {
     Serial.print(acceleration[MPU_idx][AXIS_Z_IDX]);
 }
 
-void printSensIdx(char* varName, int MPU_idx) {
+void printSensIdx(char* var_name, int MPU_idx) {
     Serial.print(" ");
-    Serial.print(varName);
+    Serial.print(var_name);
     Serial.print(MPU_idx);
     Serial.print(" ");
 }
 
-void printPosture(bool rightPosture) {
+void printPosture(bool right_posture) {
     Serial.print(" Posture: ");
-    Serial.println(rightPosture);
+    Serial.println(right_posture);
 }
 
 bool checkPositionDummy() {
