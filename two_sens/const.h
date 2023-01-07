@@ -1,18 +1,18 @@
 // Settings
 
-// Hand sensor
+// Arm sensor
 // Tolerance ~ 0.25 outside of ok values
-#define HAND_X_MID (0.65)
-#define HAND_X_LOW (0.4)
-#define HAND_X_HIGH (0.4)
+#define ARM_X_MID (0.65)
+#define ARM_X_LOW (0.4)
+#define ARM_X_HIGH (0.4)
 
-#define HAND_Y_MID (1.85)
-#define HAND_Y_LOW (0.3)
-#define HAND_Y_HIGH (0.3)
+#define ARM_Y_MID (1.85)
+#define ARM_Y_LOW (0.3)
+#define ARM_Y_HIGH (0.3)
 
-#define HAND_Z_MID (0.85)
-#define HAND_Z_LOW (0.3)
-#define HAND_Z_HIGH (0.3)
+#define ARM_Z_MID (0.85)
+#define ARM_Z_LOW (0.3)
+#define ARM_Z_HIGH (0.3)
 
 // Leg senzor
 #define LEG_X_MID (0.32)
@@ -48,26 +48,27 @@
 #define BT_MAX_INCOMING_MSG_LENGTH (1)
 
 // Bluetooth commands
-#define N_BT_COMMANDS (2)
 #define BT_OFF '0'
 #define BT_ON '1'
-
-// User Feedback
-#define FB_LINE_LENGTH (16)
+#define BT_RESET_SENS_VALUES 'R'
 
 // Architecture
 #define N_SENSORS (3)
 #define N_SENSOR_VALUES (3)
 
-#define BUTTON_PIN (12)
-#define BUTTON_MODE (INPUT_PULLUP)
+#define SENSOR_ARM_ID (0)
+#define SENSOR_LEG_ID (1)
+#define SENSOR_NECK_ID (2)
 
-#define SENSOR_PIN_0 (5)
-#define SENSOR_PIN_1 (6)
-#define SENSOR_PIN_2 (7)
+#define SENSOR_ARM_PIN (5)
+#define SENSOR_LEG_PIN (6)
+#define SENSOR_NECK_PIN (7)
 
 #define BTTX (9) // Bluetooth transmit - connect to HC-05 RXD pin via converter
 #define BTRX (8) // Bluetooth recieve - connect to HC-05 TXD pin via converter
+
+#define BUTTON_PIN (12)
+#define BUTTON_MODE (INPUT_PULLUP)
 
 #define LED (13)
 #define BUZZER (4)
@@ -94,7 +95,7 @@
 
 // Numerical constants
 #define ACC_CONSTANT (8192.0)
-#define ITERATIONS (20)
+#define N_ITERATIONS (20)
 
 #define ON_DELAY (250) // [ms]
 #define OFF_DELAY (50) // [ms]

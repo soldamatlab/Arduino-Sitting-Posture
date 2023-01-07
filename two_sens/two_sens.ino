@@ -19,12 +19,12 @@ void setup() {
     pinMode(LED, OUTPUT);
     pinMode(BUZZER, OUTPUT);
 
-    pinMode(SENSOR_PIN_0, OUTPUT);
-    pinMode(SENSOR_PIN_1, OUTPUT);
-    pinMode(SENSOR_PIN_2, OUTPUT);
-    digitalWrite(SENSOR_PIN_0, HIGH);
-    digitalWrite(SENSOR_PIN_1, HIGH);
-    digitalWrite(SENSOR_PIN_2, HIGH);
+    pinMode(SENSOR_ARM_PIN, OUTPUT);
+    pinMode(SENSOR_LEG_PIN, OUTPUT);
+    pinMode(SENSOR_NECK_PIN, OUTPUT);
+    digitalWrite(SENSOR_ARM_PIN, HIGH);
+    digitalWrite(SENSOR_LEG_PIN, HIGH);
+    digitalWrite(SENSOR_NECK_PIN, HIGH);
 }
 
 void loop() {
