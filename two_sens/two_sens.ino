@@ -5,14 +5,14 @@
 #include "const.h"
 #include "sens.h"
 
-float acceleration[N_SENSORS][N_SENSOR_VALUES];
+float acceleration[N_SENSORS][N_AXIS];
 char bt_msg[BT_MAX_INCOMING_MSG_LENGTH + 1];
 bool on = true;
 
 void setup() {
     Serial.begin(9600);
     initSens();
-    initThresholds();
+    initAveraging();
     initBluetooth();
 
     pinMode(BUTTON_PIN, BUTTON_MODE);
@@ -53,6 +53,10 @@ void bluetoothCommand(char cmd) {
 
     case BT_ON:
         on = true;
+        return;
+
+    case BT_RESET_SENS_VALUES:
+        resetValues();
         return;
     
     default:
@@ -97,11 +101,11 @@ void printSens() {
 
 void printSensValues(int MPU_idx) {
     printSensIdx("ax", MPU_idx);
-    Serial.print(acceleration[MPU_idx][0]);
+    Serial.print(acceleration[MPU_idx][AXIS_X_IDX]);
     printSensIdx("ay", MPU_idx);
-    Serial.print(acceleration[MPU_idx][1]);
+    Serial.print(acceleration[MPU_idx][AXIS_Y_IDX]);
     printSensIdx("az", MPU_idx);
-    Serial.print(acceleration[MPU_idx][2]);
+    Serial.print(acceleration[MPU_idx][AXIS_Z_IDX]);
 }
 
 void printSensIdx(char* varName, int MPU_idx) {
@@ -117,5 +121,5 @@ void printPosture(bool rightPosture) {
 }
 
 bool checkPositionDummy() {
-    return acceleration[2][0] >= -0.25;
+    return acceleration[SENSOR_NECK_IDX][AXIS_X_IDX] >= -0.25;
 }

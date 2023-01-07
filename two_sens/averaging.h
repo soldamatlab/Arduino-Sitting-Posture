@@ -1,3 +1,4 @@
 bool checkPosition();
-void initThresholds();
+void initAveraging();
 void updateValues(float* values, int sensor);
+void resetValues();

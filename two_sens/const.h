@@ -50,15 +50,11 @@
 // Bluetooth commands
 #define BT_OFF '0'
 #define BT_ON '1'
-#define BT_RESET_SENS_VALUES 'R'
+#define BT_RESET_SENS_VALUES 'r'
 
 // Architecture
 #define N_SENSORS (3)
-#define N_SENSOR_VALUES (3)
-
-#define SENSOR_ARM_ID (0)
-#define SENSOR_LEG_ID (1)
-#define SENSOR_NECK_ID (2)
+#define N_AXIS (3)
 
 #define SENSOR_ARM_PIN (5)
 #define SENSOR_LEG_PIN (6)
@@ -92,6 +88,15 @@
 #define ACCEL_YOUT_L (0x3E)
 #define ACCEL_ZOUT_H (0x3F)
 #define ACCEL_ZOUT_L (0x40)
+
+// Algorithm
+#define SENSOR_ARM_IDX (0)
+#define SENSOR_LEG_IDX (1)
+#define SENSOR_NECK_IDX (2)
+
+#define AXIS_X_IDX (0)
+#define AXIS_Y_IDX (1)
+#define AXIS_Z_IDX (2)
 
 // Numerical constants
 #define ACC_CONSTANT (8192.0)
