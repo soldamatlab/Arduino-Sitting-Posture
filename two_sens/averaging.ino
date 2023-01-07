@@ -4,7 +4,7 @@
 // TODO use constants instead of literals
 
 
-float g[N_SENSORS][3][ITERATIONS];  // [osy] = [3] (xyz), [hodnoty] = [20] (hodnoty za 5s merene jednou za 250ms 20k/250)
+float g[N_SENSORS][N_SENSOR_VALUES][ITERATIONS];  // [osy] = [3] (xyz), [hodnoty] = [20] (hodnoty za 5s merene jednou za 250ms 20k/250)
 int last_value = 0;         // last_value je ukazatel na pole
 float thresholds[N_SENSORS][3][2];     // [osy] = [3] (xyz), [hodnoty] = [2] (spdni mez a horni mez)
 // end globalni promenne

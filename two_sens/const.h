@@ -45,7 +45,15 @@
 #define BT_NAME ("HC-05")
 #define BT_PASS ("1234")
 
-#define BT_MSG_MAX_LENGTH (1)
+#define BT_MAX_INCOMING_MSG_LENGTH (1)
+
+// Bluetooth commands
+#define N_BT_COMMANDS (2)
+#define BT_OFF '0'
+#define BT_ON '1'
+
+// User Feedback
+#define FB_LINE_LENGTH (16)
 
 // Architecture
 #define N_SENSORS (3)
@@ -87,3 +95,6 @@
 // Numerical constants
 #define ACC_CONSTANT (8192.0)
 #define ITERATIONS (20)
+
+#define ON_DELAY (250) // [ms]
+#define OFF_DELAY (50) // [ms]
