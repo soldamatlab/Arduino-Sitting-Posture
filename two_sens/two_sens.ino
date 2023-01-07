@@ -22,7 +22,6 @@ void setup() {
     pinMode(SENSOR_PIN_0, OUTPUT);
     pinMode(SENSOR_PIN_1, OUTPUT);
     pinMode(SENSOR_PIN_2, OUTPUT);
-
     digitalWrite(SENSOR_PIN_0, HIGH);
     digitalWrite(SENSOR_PIN_1, HIGH);
     digitalWrite(SENSOR_PIN_2, HIGH);
@@ -38,9 +37,7 @@ void loop() {
     }
 
     measure();
-
     bool rightPosture = evaluatePosture();
-
     userFeedback(rightPosture);
 
     delay(ON_DELAY);
@@ -67,10 +64,8 @@ void measure() {
     for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
         readSens(sensor, acceleration[sensor]);
         updateValues(acceleration[sensor], sensor);
-        printSensValues(sensor);
-        Serial.print(" ");
     }
-    Serial.println();
+    printSens();
 }
 
 bool evaluatePosture() {
@@ -93,6 +88,13 @@ void userFeedback(bool rightPosture) {
 }
 
 // -- debug ------------------------------------------------------------------
+void printSens() {
+    for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
+        printSensValues(sensor);
+        Serial.print(" ");
+    }
+}
+
 void printSensValues(int MPU_idx) {
     printSensIdx("ax", MPU_idx);
     Serial.print(acceleration[MPU_idx][0]);
@@ -111,7 +113,7 @@ void printSensIdx(char* varName, int MPU_idx) {
 
 void printPosture(bool rightPosture) {
     Serial.print(" Posture:");
-    Serial.print(rightPosture);
+    Serial.println(rightPosture);
 }
 
 bool checkPositionDummy() {
