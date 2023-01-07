@@ -1,15 +1,45 @@
 // Settings
-#define X_MID (-0.1)
-#define X_LOW (0.35)
-#define X_HIGH (0.35)
 
-#define Y_MID (-0.1)
-#define Y_LOW (0.35)
-#define Y_HIGH (0.35)
+// Hand sensor
+// Tolerance ~ 0.25 outside of ok values
+#define HAND_X_MID (0.65)
+#define HAND_X_LOW (0.4)
+#define HAND_X_HIGH (0.4)
 
-#define Z_MID (2.2)
-#define Z_LOW (100)
-#define Z_HIGH (100)
+#define HAND_Y_MID (1.85)
+#define HAND_Y_LOW (0.3)
+#define HAND_Y_HIGH (0.3)
+
+#define HAND_Z_MID (0.85)
+#define HAND_Z_LOW (0.3)
+#define HAND_Z_HIGH (0.3)
+
+// Leg senzor
+#define LEG_X_MID (0.32)
+#define LEG_X_LOW (0.27)
+#define LEG_X_HIGH (0.27)
+
+#define LEG_Y_MID (1.9)
+#define LEG_Y_LOW (0.3)
+#define LEG_Y_HIGH (0.3)
+
+#define LEG_Z_MID (-0.5)
+#define LEG_Z_LOW (0.25)
+#define LEG_Z_HIGH (0.25)
+
+// Neck senzor
+// sETTINGS FOR NOTEBOOK
+#define NECK_X_MID (0.6)
+#define NECK_X_LOW (0.25)
+#define NECK_X_HIGH (0.25)
+
+#define NECK_Y_MID (-1)
+#define NECK_Y_LOW (0.25)
+#define NECK_Y_HIGH (0.25)
+
+#define NECK_Z_MID (-1.5)
+#define NECK_Z_LOW (0.25)
+#define NECK_Z_HIGH (0.25)
 
 // HC-05 Bluetooth module settings
 #define BT_NAME ("HC-05")
