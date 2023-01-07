@@ -53,8 +53,7 @@ void loop() {
         updateValues(acceleration[sensor], sensor);
     }
     Serial.println();
-    //bool rightPosture = checkPosition();
-    bool rightPosture = evaluatePosture();
+    bool rightPosture = checkPosition();
 
     // Feedback
     userFeedback(rightPosture);
@@ -97,6 +96,8 @@ bool evaluatePosture() {
 }
 
 void userFeedback(bool rightPosture) {
+    Serial.print(" Posture:");
+    Serial.print(rightPosture);
     if (rightPosture) {
         digitalWrite(LED, 0);
         noTone(BUZZER);
