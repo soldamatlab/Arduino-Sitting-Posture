@@ -1,3 +1,5 @@
+#include <Wire.h>
+
 #include "const.h"
 
 SoftwareSerial Blue(BTRX, BTTX);
@@ -20,15 +22,15 @@ void printInitMessage() {
 }
 
 /*
-readBluetooth with BT_MSG_MAX_LENGTH and no memory allocation
+readBluetooth with BT_MAX_INCOMING_MSG_LENGTH and no memory allocation
 */
 int readBluetooth(char* save_to) {
     int written = 0;
     char c;
-    while(Blue.available()) {
-        if (written == BT_MSG_MAX_LENGTH) {
+    while (Blue.available()) {
+        if (written == BT_MAX_INCOMING_MSG_LENGTH) {
             // Discard the rest of the message
-            while(Blue.available()) {
+            while (Blue.available()) {
                 Blue.read();
             }
             break;
@@ -37,4 +39,11 @@ int readBluetooth(char* save_to) {
     }
     save_to[written] = NULL;
     return written;
+}
+
+int listenBluetooth(char* save_to) {
+    if (!Blue.available()) return 0;
+    int read = readBluetooth(save_to);
+    Serial.println(save_to);
+    return read;
 }
