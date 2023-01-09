@@ -2,44 +2,44 @@
 
 // Arm sensor
 // Tolerance ~ 0.25 outside of ok values
-#define ARM_X_MID (0.65)
-#define ARM_X_LOW (0.4)
-#define ARM_X_HIGH (0.4)
+#define ARM_X_MID (1.0) // 0.65
+#define ARM_X_LOW (0.8) // 0.4
+#define ARM_X_HIGH (0.8) // 0.4
 
-#define ARM_Y_MID (1.85)
-#define ARM_Y_LOW (0.3)
-#define ARM_Y_HIGH (0.3)
+#define ARM_Y_MID (-1.7) // 1.85
+#define ARM_Y_LOW (0.6) // 0.3
+#define ARM_Y_HIGH (0.6) // 0.3
 
-#define ARM_Z_MID (0.85)
-#define ARM_Z_LOW (0.3)
-#define ARM_Z_HIGH (0.3)
+#define ARM_Z_MID (0.5) // 0.85
+#define ARM_Z_LOW (0.6) // 0.3
+#define ARM_Z_HIGH (0.6) // 0.3
 
 // Leg senzor
-#define LEG_X_MID (0.32)
-#define LEG_X_LOW (0.27)
-#define LEG_X_HIGH (0.27)
+#define LEG_X_MID (-1.5)
+#define LEG_X_LOW (0.6) // 0.3
+#define LEG_X_HIGH (0.6) // 0.3
 
-#define LEG_Y_MID (1.9)
-#define LEG_Y_LOW (0.3)
-#define LEG_Y_HIGH (0.3)
+#define LEG_Y_MID (-0.1)
+#define LEG_Y_LOW (0.5) // 0.25
+#define LEG_Y_HIGH (0.5) // 0.25
 
-#define LEG_Z_MID (-0.5)
-#define LEG_Z_LOW (0.25)
-#define LEG_Z_HIGH (0.25)
+#define LEG_Z_MID (1.0)
+#define LEG_Z_LOW (3) // 0.27
+#define LEG_Z_HIGH (3) // 0.27
 
 // Neck senzor
 // sETTINGS FOR NOTEBOOK
-#define NECK_X_MID (0.6)
-#define NECK_X_LOW (0.25)
-#define NECK_X_HIGH (0.25)
+#define NECK_X_MID (-0.6) // 0.6
+#define NECK_X_LOW (0.5) // 0.25
+#define NECK_X_HIGH (0.5) // 0.25
 
-#define NECK_Y_MID (-1)
-#define NECK_Y_LOW (0.25)
-#define NECK_Y_HIGH (0.25)
+#define NECK_Y_MID (-1.85) // -1.5
+#define NECK_Y_LOW (0.5) // 0.25
+#define NECK_Y_HIGH (0.5) // 0.25
 
-#define NECK_Z_MID (-1.5)
-#define NECK_Z_LOW (0.25)
-#define NECK_Z_HIGH (0.25)
+#define NECK_Z_MID (0.15) // -1
+#define NECK_Z_LOW (0.5) // 0.25
+#define NECK_Z_HIGH (0.5) // 0.25
 
 // HC-05 Bluetooth module settings
 #define BT_NAME ("HC-05")
@@ -48,10 +48,13 @@
 #define BT_MAX_INCOMING_MSG_LENGTH (1)
 
 // Bluetooth commands
-#define BT_OFF '0'
-#define BT_ON '1'
+#define BT_OFF 's'
+#define BT_ON 'd'
 #define BT_RESET_SENS_VALUES 'r'
 #define BT_MUTE_BUZZER 'm'
+#define BT_SET_FB_MODE_BOOL '1'
+#define BT_SET_FB_MODE_EVAL '2'
+#define BT_SET_FB_MODE_VALUES '3'
 
 // Architecture
 #define N_SENSORS (3)
@@ -91,6 +94,10 @@
 #define ACCEL_ZOUT_L (0x40)
 
 // Algorithm
+#define FB_MODE_BOOL (0)
+#define FB_MODE_EVAL (1)
+#define FB_MODE_VALUES (2)
+
 #define SENSOR_ARM_IDX (0)
 #define SENSOR_LEG_IDX (1)
 #define SENSOR_NECK_IDX (2)
@@ -103,5 +110,5 @@
 #define ACC_CONSTANT (8192.0)
 #define N_ITERATIONS (20)
 
-#define ON_DELAY (250) // [ms]
+#define ON_DELAY (125) // [ms]
 #define OFF_DELAY (50) // [ms]
