@@ -1,16 +1,14 @@
 #include <Wire.h>
 
+#include "bluetooth.h"
 #include "const.h"
+#include "two_sens.h"
 
 // Global vars
-// TODO use constants instead of literals
-
-
 float g[N_SENSORS][N_AXIS][N_ITERATIONS];  // [osy] = [3] (xyz), [hodnoty] = [20] (hodnoty za 5s merene jednou za 250ms 20k/250)
-int last_value = 0;         // last_value je ukazatel na pole
-float thresholds[N_SENSORS][N_AXIS][2];     // [osy] = [3] (xyz), [hodnoty] = [2] (spdni mez a horni mez)
+int last_value = 0;                        // last_value je ukazatel na pole
+float thresholds[N_SENSORS][N_AXIS][2];    // [osy] = [3] (xyz), [hodnoty] = [2] (spdni mez a horni mez)
 static bool verbose_avg = false;
-// end globalni promenne
 
 float average(int sensor, int axis) {
     /*
@@ -23,7 +21,7 @@ float average(int sensor, int axis) {
     return s / N_ITERATIONS;
 }
 
-bool checkPosition() {
+void checkPosition(bool* save_to) {
     /*
      * Function iterates through all rows of accelerations.
      * If any average lies outside of thrs, returns false.
@@ -31,12 +29,15 @@ bool checkPosition() {
      */
 
     for (int sensor = 0; sensor < N_SENSORS; ++sensor) {
-      for (int axis = 0; axis < N_AXIS; axis++) {
-          float curr_av = average(sensor, axis);
-          if ((curr_av < thresholds[sensor][axis][0]) || (curr_av > thresholds[sensor][axis][1])) return false;
-      }
+        save_to[sensor] = true;
+        for (int axis = 0; axis < N_AXIS; axis++) {
+            float curr_av = average(sensor, axis);
+            if ((curr_av < thresholds[sensor][axis][0]) || (curr_av > thresholds[sensor][axis][1])) {
+                save_to[sensor] = false;
+                break;
+            }
+        }
     }
-    return true;
 }
 
 void initAveraging(bool print_serial = true) {
@@ -56,7 +57,7 @@ void initThresholds() {
     thresholds[SENSOR_ARM_IDX][AXIS_Y_IDX][1] = ARM_Y_MID + ARM_Y_HIGH;
     thresholds[SENSOR_ARM_IDX][AXIS_Z_IDX][0] = ARM_Z_MID - ARM_Z_LOW;
     thresholds[SENSOR_ARM_IDX][AXIS_Z_IDX][1] = ARM_Z_MID + ARM_Z_HIGH;
-// sensor 2 - ten naplacato
+    // sensor 2 - ten naplacato
     thresholds[SENSOR_LEG_IDX][AXIS_X_IDX][0] = LEG_X_MID - LEG_X_LOW;
     thresholds[SENSOR_LEG_IDX][AXIS_X_IDX][1] = LEG_X_MID + LEG_X_HIGH;
     thresholds[SENSOR_LEG_IDX][AXIS_Y_IDX][0] = LEG_Y_MID - LEG_Y_LOW;
@@ -64,17 +65,16 @@ void initThresholds() {
     thresholds[SENSOR_LEG_IDX][AXIS_Z_IDX][0] = LEG_Z_MID - LEG_Z_LOW;
     thresholds[SENSOR_LEG_IDX][AXIS_Z_IDX][1] = LEG_Z_MID + LEG_Z_HIGH;
 
-// sensor 3 - ten co je navolno
+    // sensor 3 - ten co je navolno
     thresholds[SENSOR_NECK_IDX][AXIS_X_IDX][0] = NECK_X_MID - NECK_X_LOW;
     thresholds[SENSOR_NECK_IDX][AXIS_X_IDX][1] = NECK_X_MID + NECK_X_HIGH;
     thresholds[SENSOR_NECK_IDX][AXIS_Y_IDX][0] = NECK_Y_MID - NECK_Y_LOW;
     thresholds[SENSOR_NECK_IDX][AXIS_Y_IDX][1] = NECK_Y_MID + NECK_Y_HIGH;
     thresholds[SENSOR_NECK_IDX][AXIS_Z_IDX][0] = NECK_Z_MID - NECK_Z_LOW;
     thresholds[SENSOR_NECK_IDX][AXIS_Z_IDX][1] = NECK_Z_MID + NECK_Z_HIGH;
-
 }
 
-void updateValues(float *values, int sensor) {
+void updateValues(float* values, int sensor) {
     /*
      * Function rewrites values in stack of iterations.
      */
@@ -99,7 +99,7 @@ void resetValues() {
     setValues(SENSOR_NECK_IDX, AXIS_Y_IDX, NECK_Y_MID);
     setValues(SENSOR_NECK_IDX, AXIS_Z_IDX, NECK_Z_MID);
 
-    if (verbose_avg) Serial.println("Sensor values reset.");
+    if (verbose_avg) printlnSerialBlue("Sensor values reset.");
 }
 
 void setValues(int sensor, int axis, float value) {
